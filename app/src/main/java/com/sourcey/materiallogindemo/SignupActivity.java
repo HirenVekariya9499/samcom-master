@@ -25,19 +25,19 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
     @BindView(R.id.btn_signup) Button _signupButton;
     @BindView(R.id.link_login) TextView _loginLink;
-    
+
+    EditText ET_NAME, ET_USER_NAME, ET_USER_PASS;
+    String name,user_name,user_pass,Email;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+        ET_NAME = (EditText) findViewById(R.id.input_name);
+        ET_USER_NAME= (EditText) findViewById(R.id.input_mobile);
+        ET_USER_PASS= (EditText) findViewById(R.id.input_password);
 
-        _signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signup();
-            }
-        });
 
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void signup() {
+    public void signup(View view) {
         Log.d(TAG, "Signup");
 
         if (!validate()) {
@@ -67,34 +67,40 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
-//        String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
-        String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
+        name = _nameText.getText().toString();
+        Email = _emailText.getText().toString();
+        user_name= _mobileText.getText().toString();
+        user_pass= _passwordText.getText().toString();
+        String method="register";
+        BackgroundTask backgroundTask=new BackgroundTask( this );
+        backgroundTask.execute(method,name,user_name,user_pass );
+        finish();
+
+
+
+//        String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+//
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onSignupSuccess or onSignupFailed
+//                        // depending on success
+//                        onSignupSuccess();
+//                        // onSignupFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
-
-
-    public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
-    }
-
+//
+//
+//    public void onSignupSuccess() {
+//        _signupButton.setEnabled(true);
+//        setResult(RESULT_OK, null);
+//        finish();
+//    }
+//
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
@@ -104,14 +110,14 @@ public class SignupActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String name = _nameText.getText().toString();
+        String Uname = _nameText.getText().toString();
 //        String address = _addressText.getText().toString();
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
+        if (Uname.isEmpty() || Uname.length() < 3) {
             _nameText.setError("at least 3 characters");
             valid = false;
         } else {
