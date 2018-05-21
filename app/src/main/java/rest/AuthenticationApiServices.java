@@ -18,4 +18,12 @@ public interface AuthenticationApiServices {
     Call<BaseResponse> GetRegister(@Field("name") String name,
                                    @Field("user_pass") String user_pass,
                                    @Field("user_name") String user_name);
+
+
+    @POST("login.php")
+    @FormUrlEncoded
+    Call<BaseResponse> GetLogin(@Field("name") String name,
+                                   @Field("user_pass") String user_pass);
+
+    Call<BaseResponse> GetRegister(String s, String s1);
 }

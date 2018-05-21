@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import rest.RestClient;
@@ -21,6 +22,7 @@ import retrofit2.Response;
 public class SignupActivity_1 extends AppCompatActivity {
     private EditText etName,etEmail,etMobile,etPassword,etreEnterPassword;
     private Button btn_signup;
+    private TextView btn_login;
     private String username,email,mobile,password,reenterpassword;
 
 
@@ -34,6 +36,7 @@ public class SignupActivity_1 extends AppCompatActivity {
         etPassword=findViewById(R.id.etpassword);
         etreEnterPassword=findViewById(R.id.input_reEnterPassword);
         btn_signup=findViewById(R.id.btn_signup);
+        btn_login = findViewById( R.id.link_login );
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,32 +48,33 @@ public class SignupActivity_1 extends AppCompatActivity {
                 password=etPassword.getText().toString();
                 reenterpassword=etreEnterPassword.getText().toString();
 
+
                 boolean isValid = true;
-                if (username.isEmpty()) {
+                if (username.isEmpty() || username.length() < 3){
                     isValid = false;
                     etName.setError("Please Enter username");
                     etName.requestFocus();
                     // Toast.makeText(getApplicationContext(), "Please Enter Name", Toast.LENGTH_SHORT).show();
                 }
-                if (email.isEmpty()) {
+                if(email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     isValid = false;
                     etEmail.setError("Please Enter Email");
                     etEmail.requestFocus();
                     // Toast.makeText(getApplicationContext(), "Please Enter Mobile number", Toast.LENGTH_SHORT).show();
                 }
-                if (mobile.equals("")) {
+                if (mobile.isEmpty() || mobile.length()!=10)  {
                     isValid = false;
                     etMobile.setError("Please Enter mobile");
                     etMobile.requestFocus();
                     //Toast.makeText(getApplicationContext(), "Please Enter Date of Birth", Toast.LENGTH_SHORT).show();
                 }
-                if (password.isEmpty()) {
+                if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
                     isValid = false;
                     etPassword.setError("Please Enter password");
                     etPassword.requestFocus();
                     // Toast.makeText(getApplicationContext(), "Please Enter Password", Toast.LENGTH_SHORT).show();
                 }
-                if (!password.equals(reenterpassword)) {
+                if (reenterpassword.isEmpty() || reenterpassword.length() < 4 || reenterpassword.length() > 10 || !(reenterpassword.equals(password)))  {
                     isValid = false;
                     Toast.makeText(getApplicationContext(), "Password mismatched", Toast.LENGTH_SHORT).show();
                 }
@@ -80,6 +84,18 @@ public class SignupActivity_1 extends AppCompatActivity {
                 }
             }
         });
+
+        btn_login.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Start the Signup activity
+                Intent intent = new Intent( SignupActivity_1.this, LoginActivity.class );
+                startActivity( intent );
+                finish();
+                overridePendingTransition( R.anim.push_left_in, R.anim.push_left_out );
+            }
+        } );
     }
 
     private void callRegisterApi() {
