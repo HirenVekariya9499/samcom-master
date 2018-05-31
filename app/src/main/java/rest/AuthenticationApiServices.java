@@ -11,7 +11,7 @@ import retrofit2.http.POST;
  * Created by Arjun on 21-05-2018.
  */
 
-public interface AuthenticationApiServices {
+public interface    AuthenticationApiServices {
 
     @POST("register.php")
     @FormUrlEncoded
